@@ -4,8 +4,8 @@ import Cookies from 'js-cookie';
 
 import Layout from '@/layout/index.vue'
 import Home from '@/views/Home/index.vue'
-import Goods from '@/views/Goods/index.vue'
-import Order from '@/views/Order/index.vue'
+// import Goods from '@/views/Goods/index.vue'
+// import Order from '@/views/Order/index.vue'
 
 
 const routerMode = {
@@ -22,24 +22,27 @@ const routes = [
       {
         path: '/home',
         name: 'home',
-        component: Home
+        component: Home,
       },
       {
         path: '/goods',
         name: 'goods',
-        component: Goods
+        component: () => import('@/views/Goods/index.vue'),
+        meta: { keepAlive: true }
       },
       {
         path: '/order',
         name: 'order',
-        component: Order
+        component: () => import('@/views/Order/index.vue'),
+        meta: { keepAlive: true }
       }
     ]
   },
   {
     path: '/login',
     name: 'login',
-    component: () => import('@/views/Login/index.vue')
+    component: () => import('@/views/Login/index.vue'),
+    meta: { keepAlive: true }
   },
   {
     path: '/:pathMatch(.*)*',
@@ -67,15 +70,16 @@ const whiteList = ['/login'] // 添加白名单
 
 router.beforeEach((to, from, next) => {
   const isToken = Cookies.get('v3-admin-token')
-  console.log(isToken, 'isToken', from, to);
-  if (isToken) {
-    // 已登录时访问登录页，重定向到首页
-    to.name === 'login' ? next('/') : next()
-  } else {
-    // 未登录时允许访问白名单中的路由
-    whiteList.includes(to.path) ? next() : next(`/login?redirect=${to.path}`)
-    // next(`/login?redirect=${to.path}`)
-  }
+  next()
+  // console.log(isToken, 'isToken', from, to);
+  // if (isToken) {
+  //   // 已登录时访问登录页，重定向到首页
+  //   to.name === 'login' ? next('/') : next()
+  // } else {
+  //   // 未登录时允许访问白名单中的路由
+  //   whiteList.includes(to.path) ? next() : next(`/login?redirect=${to.path}`)
+  //   // next(`/login?redirect=${to.path}`)
+  // }
 })
 
 export default router

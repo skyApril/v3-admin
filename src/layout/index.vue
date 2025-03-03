@@ -5,7 +5,16 @@
       <el-container>
         <el-header> <Header /> </el-header>
         <el-main>
-          <router-view></router-view>
+          <router-view v-slot="{ Component, route }">
+            <transition appear name="fade-transform" mode="out-in">
+              <keep-alive :include="keepAliveName">
+                <component :is="Component" :key="route.fullPath" />
+              </keep-alive>
+            </transition>
+          </router-view>
+          <!-- <keep-alive :include="['goods','order']">
+            <router-view></router-view>
+          </keep-alive> -->
         </el-main>
         <el-footer> <Footer /> </el-footer>
       </el-container>
@@ -22,9 +31,20 @@
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 import Aside from "./component/Aside.vue";
 import Header from "./component/Header.vue";
 import Footer from "./component/Footer.vue";
+
+const keepAliveName = ref<string[]>([]);
+const router = useRouter();
+router.afterEach((to) => {
+  if(to.meta.keepAlive) {
+    keepAliveName.value.push(to.name as string);
+  }
+})
+
 </script>
 
 <style lang="scss" scoped>

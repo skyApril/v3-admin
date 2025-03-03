@@ -1,25 +1,16 @@
 <template>
   <div>
-    <h1>首页</h1>
-    <el-button @click="handleLogin">登录</el-button>
+    <h1>表格</h1>
     {{ num }}
     <el-button type="primary" @click="add">add</el-button>
   </div>
 </template>
 
 <script setup lang="ts">
-defineOptions({
-  name: 'Home'
-})
 import { ref } from 'vue'
 const num = ref(0)
 const add = () => {
   num.value++
-}
-import { useRouter } from 'vue-router'
-const router = useRouter();
-const handleLogin = () => {
-  router.push('/login')
 }
 </script>
 

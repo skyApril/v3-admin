@@ -8,7 +8,7 @@
       <el-menu
         active-text-color="#ffd04b"
         background-color="#545c64"
-        default-active="/home"
+        :default-active="active"
         class="el-menu-vertical-demo"
         :collapse="isCollapse"
         text-color="#fff"
@@ -51,16 +51,19 @@ import { ref } from "vue";
 import { useRouter } from 'vue-router'
 import {  Menu, HomeFilled } from "@element-plus/icons-vue";
 
+let active = ref("/home");
 const isCollapse = ref(false);
 const router = useRouter();
 const handleOpen = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath, "handleOpen");
+  // console.log(key, keyPath, "handleOpen");
 };
 const handleClose = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath, "handleClose");
+  // console.log(key, keyPath, "handleClose");
 };
 const handleSelect = (key: string, keyPath: string[]) => {
-  console.log(key, keyPath, "handleSelect");
+  // console.log(key, keyPath, "handleSelect");
+  active.value = key;
+  // console.log(key, active);
   router.push(key);
 };
 </script>
